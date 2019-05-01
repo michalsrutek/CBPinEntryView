@@ -86,6 +86,12 @@ public protocol CBPinEntryViewDelegate: class {
 
     @IBInspectable open var isSecure: Bool = CBPinEntryViewDefaults.isSecure
 
+    @IBInspectable open var capitalized: Bool = CBPinEntryViewDefaults.capitalized {
+        didSet {
+            textField?.autocapitalizationType = capitalized ? .allCharacters : .none
+        }
+    }
+
     @IBInspectable open var secureCharacter: String = CBPinEntryViewDefaults.secureCharacter
 
     @IBInspectable open var keyboardType: Int = CBPinEntryViewDefaults.keyboardType
