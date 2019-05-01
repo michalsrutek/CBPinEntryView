@@ -14,7 +14,11 @@ public protocol CBPinEntryViewDelegate: class {
 
 @IBDesignable open class CBPinEntryView: UIView {
 
-    @IBInspectable open var length: Int = CBPinEntryViewDefaults.length
+    @IBInspectable open var length: Int = CBPinEntryViewDefaults.length {
+        didSet {
+            commonInit()
+        }
+    }
     
     @IBInspectable open var spacing: CGFloat = CBPinEntryViewDefaults.spacing
 
@@ -88,7 +92,11 @@ public protocol CBPinEntryViewDelegate: class {
 
     @IBInspectable open var secureCharacter: String = CBPinEntryViewDefaults.secureCharacter
 
-    @IBInspectable open var keyboardType: Int = CBPinEntryViewDefaults.keyboardType
+    @IBInspectable open var keyboardType: Int = CBPinEntryViewDefaults.keyboardType {
+        didSet {
+            commonInit()
+        }
+    }
     
     open var textContentType: UITextContentType? {
         didSet {
@@ -153,6 +161,7 @@ public protocol CBPinEntryViewDelegate: class {
     }
 
     private func setupStackView() {
+        stackView?.removeFromSuperview()
         stackView = UIStackView(frame: bounds)
         stackView!.alignment = .fill
         stackView!.axis = .horizontal
@@ -169,6 +178,7 @@ public protocol CBPinEntryViewDelegate: class {
     }
 
     private func setupTextField() {
+        textField?.removeFromSuperview()
         textField = UITextField(frame: bounds)
         textField.delegate = self
         textField.keyboardType = UIKeyboardType(rawValue: keyboardType) ?? .numberPad
@@ -180,6 +190,7 @@ public protocol CBPinEntryViewDelegate: class {
     }
 
     private func createButtons() {
+        entryButtons = []
         for i in 0..<length {
             let button = UIButton()
             button.backgroundColor = entryBackgroundColour
