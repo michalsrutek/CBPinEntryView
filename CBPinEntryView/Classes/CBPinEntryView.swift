@@ -19,7 +19,7 @@ public protocol CBPinEntryViewDelegate: class {
             commonInit()
         }
     }
-    
+
     @IBInspectable open var spacing: CGFloat = CBPinEntryViewDefaults.spacing
 
     @IBInspectable open var entryCornerRadius: CGFloat = CBPinEntryViewDefaults.entryCornerRadius {
@@ -103,7 +103,7 @@ public protocol CBPinEntryViewDelegate: class {
             commonInit()
         }
     }
-    
+
     open var textContentType: UITextContentType? {
         didSet {
             if #available(iOS 10, *) {
@@ -174,9 +174,9 @@ public protocol CBPinEntryViewDelegate: class {
         stackView!.distribution = .fillEqually
         stackView!.spacing = spacing
         stackView!.translatesAutoresizingMaskIntoConstraints = false
-        
+
         self.addSubview(stackView!)
-        
+
         stackView!.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
         stackView!.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
         stackView!.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
@@ -189,6 +189,7 @@ public protocol CBPinEntryViewDelegate: class {
         textField.delegate = self
         textField.keyboardType = UIKeyboardType(rawValue: keyboardType) ?? .numberPad
         textField.addTarget(self, action: #selector(textfieldChanged(_:)), for: .editingChanged)
+        textField.autocorrectionType = .no
 
         self.addSubview(textField)
 
@@ -230,7 +231,7 @@ public protocol CBPinEntryViewDelegate: class {
 
     @objc private func didPressCodeButton(_ sender: UIButton) {
         errorMode = false
-        
+
         let entryIndex = textField.text!.count + 1
         for button in entryButtons {
             button.layer.borderColor = entryBorderColour.cgColor
@@ -243,7 +244,7 @@ public protocol CBPinEntryViewDelegate: class {
                 button.backgroundColor = entryBackgroundColour
             }
         }
-        
+
         textField.becomeFirstResponder()
     }
 
@@ -286,22 +287,22 @@ public protocol CBPinEntryViewDelegate: class {
     open func getPinAsString() -> String {
         return textField.text!
     }
-    
+
     @discardableResult open override func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
-        
+
         if let firstButton = entryButtons.first {
             didPressCodeButton(firstButton)
         }
-        
+
         return true
     }
-    
+
     @discardableResult open override func resignFirstResponder() -> Bool {
         super.resignFirstResponder()
-        
+
         setError(isError: false)
-        
+
         return textField.resignFirstResponder()
     }
 }
